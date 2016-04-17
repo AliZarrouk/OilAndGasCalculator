@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C068E832-2CD1-4D25-AB99-5FC7805CDAF3}</ProjectGuid>
+    <ProjectGuid>{FD9C5050-22AE-4ED0-A585-8DAFF8577408}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OilAndGasProcessor</RootNamespace>
-    <AssemblyName>OilAndGasProcessor</AssemblyName>
+    <RootNamespace>Core</RootNamespace>
+    <AssemblyName>Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,24 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Parser\DataParser.cs" />
-    <Compile Include="Parser\ParserRequest.cs" />
-    <Compile Include="Parser\ParserResponse.cs" />
+    <Compile Include="DataAccess\CoreRequest.cs" />
+    <Compile Include="DataAccess\CoreResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Calculator\" />
-    <Folder Include="Processor\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{fd9c5050-22ae-4ed0-a585-8daff8577408}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OilAndGasForm\OilAndGasForm.csproj">
-      <Project>{5eb941e4-9306-4652-b883-a2a37aa8f229}</Project>
-      <Name>OilAndGasForm</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

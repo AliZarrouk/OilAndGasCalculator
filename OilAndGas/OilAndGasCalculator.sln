@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OilAndGasProcessor", "OilAn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OilAndGasProcessorTests", "OilAndGasProcessorTests\OilAndGasProcessorTests.csproj", "{55C98454-100D-4268-BBE4-9C6DB01822B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{FD9C5050-22AE-4ED0-A585-8DAFF8577408}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{55C98454-100D-4268-BBE4-9C6DB01822B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55C98454-100D-4268-BBE4-9C6DB01822B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55C98454-100D-4268-BBE4-9C6DB01822B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD9C5050-22AE-4ED0-A585-8DAFF8577408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD9C5050-22AE-4ED0-A585-8DAFF8577408}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD9C5050-22AE-4ED0-A585-8DAFF8577408}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD9C5050-22AE-4ED0-A585-8DAFF8577408}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
