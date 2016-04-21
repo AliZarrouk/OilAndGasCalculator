@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="DataAccess\CoreRequest.cs" />
     <Compile Include="DataAccess\CoreResponse.cs" />
+    <Compile Include="Extensions\LogExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

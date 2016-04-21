@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,24 +43,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calculator\CalculatorRequest.cs" />
+    <Compile Include="Calculator\CalculatorResponse.cs" />
+    <Compile Include="DataModeling\Cell.cs" />
+    <Compile Include="Enums\Units.cs" />
     <Compile Include="Parser\DataParser.cs" />
+    <Compile Include="Parser\ParserOutput.cs" />
     <Compile Include="Parser\ParserRequest.cs" />
     <Compile Include="Parser\ParserResponse.cs" />
+    <Compile Include="Processor\FormOutput.cs" />
+    <Compile Include="Processor\ProcessorRequest.cs" />
+    <Compile Include="Processor\ProcessorResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Calculator\" />
-    <Folder Include="Processor\" />
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{fd9c5050-22ae-4ed0-a585-8daff8577408}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OilAndGasForm\OilAndGasForm.csproj">
-      <Project>{5eb941e4-9306-4652-b883-a2a37aa8f229}</Project>
-      <Name>OilAndGasForm</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

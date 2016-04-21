@@ -7,7 +7,7 @@ using Core.DataAccess;
 
 namespace OilAndGasProcessor.Parser
 {
-    public class ParserResponse : CoreResponse<Dictionary<string, double>>
+    public class ParserResponse : CoreResponse<ParserOutput>
     {
     }
 }

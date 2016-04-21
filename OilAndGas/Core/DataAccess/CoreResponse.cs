@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using log4net;
 
 namespace Core.DataAccess
 {
@@ -7,13 +8,17 @@ namespace Core.DataAccess
     {
         public Guid Id { get; set; }
 
-        public ICollection<String> Errors { get; set; }
+        public IEnumerable<String> Errors { get; set; }
 
-        public virtual T Result { get; set; }
+        public T Result { get; set; }
+
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(CoreResponse<T>));
 
         protected CoreResponse()
         {
             Id = new Guid();
+
+            Log.InfoFormat("Request created with ID {0}", Id);
         }
     }
 }
