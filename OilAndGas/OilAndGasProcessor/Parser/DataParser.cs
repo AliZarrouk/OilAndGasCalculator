@@ -121,8 +121,6 @@ namespace OilAndGasProcessor.Parser
                             int parsedInt;
                             if (int.TryParse(numbers[j], out parsedInt))
                                 matrix[j, i] = parsedInt;
-                            else
-                                errors.AppendFormat("Element {2} at {0},{1} is not an int", i, j, numbers[j]);
                         }
                     }
 
