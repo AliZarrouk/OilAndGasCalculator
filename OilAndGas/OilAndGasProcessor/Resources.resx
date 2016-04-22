@@ -144,20 +144,14 @@
   <data name="SomeLinesHaveNonParsableToIntStringOrNegativeNumbers" xml:space="preserve">
     <value>Some of the lines have non parsable to int strings or negative numbers</value>
   </data>
-  <data name="LateralNotParsable" xml:space="preserve">
-    <value>Lateral is not a parsable double</value>
+  <data name="NotParsableDouble" xml:space="preserve">
+    <value>is not a parsable double</value>
   </data>
-  <data name="BHNotParsable" xml:space="preserve">
-    <value>Base Horizon is not a parsable double</value>
-  </data>
-  <data name="FCNotParsable" xml:space="preserve">
-    <value>Fluid Conact is not a parsable double</value>
-  </data>
-  <data name="PrecisionNotParsable" xml:space="preserve">
-    <value>Precision not parsable</value>
+  <data name="NotParsableInt" xml:space="preserve">
+    <value>is not a parsable int</value>
   </data>
   <data name="NotUnderZero" xml:space="preserve">
-    <value>Not Under 0</value>
+    <value>not Under 0</value>
   </data>
   <data name="InformationMessage" xml:space="preserve">
     <value>
@@ -166,7 +160,6 @@
       The precision is the number of time you divide by the lateral.
      The higher you raize the precision, the more accurate the results, but the more time the calculator takes to
      calculate the results.
-     Hope you like .. Because I did :).
     </value>
   </data>
 </root>

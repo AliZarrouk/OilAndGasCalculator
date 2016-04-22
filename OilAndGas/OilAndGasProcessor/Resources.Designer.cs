@@ -70,15 +70,6 @@ namespace OilAndGasProcessor {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Base Horizon is not a parsable double.
-        /// </summary>
-        internal static string BHNotParsable {
-            get {
-                return ResourceManager.GetString("BHNotParsable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Calculating ....
         /// </summary>
         internal static string CalculatingText {
@@ -106,15 +97,6 @@ namespace OilAndGasProcessor {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fluid Conact is not a parsable double.
-        /// </summary>
-        internal static string FCNotParsable {
-            get {
-                return ResourceManager.GetString("FCNotParsable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to 9842.52.
         /// </summary>
         internal static string FluidContactDefaultValue {
@@ -130,7 +112,6 @@ namespace OilAndGasProcessor {
         ///      The precision is the number of time you divide by the lateral.
         ///     The higher you raize the precision, the more accurate the results, but the more time the calculator takes to
         ///     calculate the results.
-        ///     Hope you like .. Because I did :).
         ///    .
         /// </summary>
         internal static string InformationMessage {
@@ -158,15 +139,6 @@ namespace OilAndGasProcessor {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lateral is not a parsable double.
-        /// </summary>
-        internal static string LateralNotParsable {
-            get {
-                return ResourceManager.GetString("LateralNotParsable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Minimum number of lines 2.
         /// </summary>
         internal static string MinimumNumberOfLines2 {
@@ -176,20 +148,29 @@ namespace OilAndGasProcessor {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not Under 0.
+        ///   Looks up a localized string similar to is not a parsable double.
         /// </summary>
-        internal static string NotUnderZero {
+        internal static string NotParsableDouble {
             get {
-                return ResourceManager.GetString("NotUnderZero", resourceCulture);
+                return ResourceManager.GetString("NotParsableDouble", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Precision not parsable.
+        ///   Looks up a localized string similar to is not a parsable int.
         /// </summary>
-        internal static string PrecisionNotParsable {
+        internal static string NotParsableInt {
             get {
-                return ResourceManager.GetString("PrecisionNotParsable", resourceCulture);
+                return ResourceManager.GetString("NotParsableInt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to not Under 0.
+        /// </summary>
+        internal static string NotUnderZero {
+            get {
+                return ResourceManager.GetString("NotUnderZero", resourceCulture);
             }
         }
         
