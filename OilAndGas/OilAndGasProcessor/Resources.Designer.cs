@@ -70,6 +70,24 @@ namespace OilAndGasProcessor {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 203.
+        /// </summary>
+        internal static string BHNotParsableErrorCode {
+            get {
+                return ResourceManager.GetString("BHNotParsableErrorCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 204.
+        /// </summary>
+        internal static string BHUnderZeroErrorCode {
+            get {
+                return ResourceManager.GetString("BHUnderZeroErrorCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calculating ....
         /// </summary>
         internal static string CalculatingText {
@@ -88,11 +106,38 @@ namespace OilAndGasProcessor {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 211.
+        /// </summary>
+        internal static string DepthValuesNotOfTheSameNumberErrorCode {
+            get {
+                return ResourceManager.GetString("DepthValuesNotOfTheSameNumberErrorCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Depth values not of the same number in each line.
         /// </summary>
         internal static string DepthValuesNotOfTheSameNumberErrorText {
             get {
                 return ResourceManager.GetString("DepthValuesNotOfTheSameNumberErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 205.
+        /// </summary>
+        internal static string FCNotParsableErrorCode {
+            get {
+                return ResourceManager.GetString("FCNotParsableErrorCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 206.
+        /// </summary>
+        internal static string FCUnderZeroErrorCode {
+            get {
+                return ResourceManager.GetString("FCUnderZeroErrorCode", resourceCulture);
             }
         }
         
@@ -139,11 +184,38 @@ namespace OilAndGasProcessor {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 201.
+        /// </summary>
+        internal static string LateralNotParsableErrorCode {
+            get {
+                return ResourceManager.GetString("LateralNotParsableErrorCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 202.
+        /// </summary>
+        internal static string LateralUnderZeroErrorCode {
+            get {
+                return ResourceManager.GetString("LateralUnderZeroErrorCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Minimum number of lines 2.
         /// </summary>
         internal static string MinimumNumberOfLines2 {
             get {
                 return ResourceManager.GetString("MinimumNumberOfLines2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 209.
+        /// </summary>
+        internal static string MinNumberOfLinesErrorCode {
+            get {
+                return ResourceManager.GetString("MinNumberOfLinesErrorCode", resourceCulture);
             }
         }
         
@@ -175,11 +247,38 @@ namespace OilAndGasProcessor {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 208.
+        /// </summary>
+        internal static string PrecisionNotParsableErrorCode {
+            get {
+                return ResourceManager.GetString("PrecisionNotParsableErrorCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 207.
+        /// </summary>
+        internal static string PrecisionUnderZeroErrorCode {
+            get {
+                return ResourceManager.GetString("PrecisionUnderZeroErrorCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Some of the lines have non parsable to int strings or negative numbers.
         /// </summary>
         internal static string SomeLinesHaveNonParsableToIntStringOrNegativeNumbers {
             get {
                 return ResourceManager.GetString("SomeLinesHaveNonParsableToIntStringOrNegativeNumbers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 210.
+        /// </summary>
+        internal static string SomeLinesHaveNonParsableToIntStringOrNegativeNumbersErrorCode {
+            get {
+                return ResourceManager.GetString("SomeLinesHaveNonParsableToIntStringOrNegativeNumbersErrorCode", resourceCulture);
             }
         }
     }

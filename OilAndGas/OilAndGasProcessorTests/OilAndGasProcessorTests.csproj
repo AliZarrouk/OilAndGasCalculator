@@ -56,6 +56,10 @@
     <Compile Include="ProcessorTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{FD9C5050-22AE-4ED0-A585-8DAFF8577408}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OilAndGasProcessor\OilAndGasProcessor.csproj">
       <Project>{c068e832-2cd1-4d25-ab99-5fc7805cdaf3}</Project>
       <Name>OilAndGasProcessor</Name>

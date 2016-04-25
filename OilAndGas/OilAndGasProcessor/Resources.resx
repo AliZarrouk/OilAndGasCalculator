@@ -162,4 +162,37 @@
      calculate the results.
     </value>
   </data>
+  <data name="BHNotParsableErrorCode" xml:space="preserve">
+    <value>203</value>
+  </data>
+  <data name="BHUnderZeroErrorCode" xml:space="preserve">
+    <value>204</value>
+  </data>
+  <data name="DepthValuesNotOfTheSameNumberErrorCode" xml:space="preserve">
+    <value>211</value>
+  </data>
+  <data name="FCNotParsableErrorCode" xml:space="preserve">
+    <value>205</value>
+  </data>
+  <data name="FCUnderZeroErrorCode" xml:space="preserve">
+    <value>206</value>
+  </data>
+  <data name="LateralNotParsableErrorCode" xml:space="preserve">
+    <value>201</value>
+  </data>
+  <data name="LateralUnderZeroErrorCode" xml:space="preserve">
+    <value>202</value>
+  </data>
+  <data name="MinNumberOfLinesErrorCode" xml:space="preserve">
+    <value>209</value>
+  </data>
+  <data name="PrecisionNotParsableErrorCode" xml:space="preserve">
+    <value>208</value>
+  </data>
+  <data name="PrecisionUnderZeroErrorCode" xml:space="preserve">
+    <value>207</value>
+  </data>
+  <data name="SomeLinesHaveNonParsableToIntStringOrNegativeNumbersErrorCode" xml:space="preserve">
+    <value>210</value>
+  </data>
 </root>

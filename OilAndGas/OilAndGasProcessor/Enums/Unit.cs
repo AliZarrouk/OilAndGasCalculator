@@ -2,7 +2,7 @@
 
 namespace OilAndGasProcessor.Enums
 {
-    public enum Units
+    public enum Unit
     {
         [Description("Cubic Meter")]
         CubicMeter,
