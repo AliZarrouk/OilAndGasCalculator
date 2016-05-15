@@ -1,6 +1,9 @@
-﻿namespace OilAndGasProcessor.Calculator
+﻿using Core.DataAccess;
+using OilAndGasProcessor.Parser;
+
+namespace OilAndGasProcessor.Calculator
 {
-    public class CalculatorRequest
+    public class CalculatorRequest : CoreRequest<CalculatorInput>
     {
 
     }

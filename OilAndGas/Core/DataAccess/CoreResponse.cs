@@ -8,7 +8,7 @@ namespace Core.DataAccess
     {
         public Guid Id { get; set; }
 
-        public IEnumerable<String> Errors { get; set; }
+        public IEnumerable<BaseError> Errors { get; set; }
 
         public T Result { get; set; }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Core.DataAccess;
 using Core.Extensions;
 using Core.Utilities;
 using log4net;
@@ -30,24 +31,22 @@ namespace OilAndGasProcessor.Parser
 
                 var response = new ParserResponse
                 {
-                    Result = new ParserOutput()
+                    Result = new ParserOutput(),
+                    Errors = new List<BaseError>()
                 };
 
-                var errors = new StringBuilder();
+                var lateral = TryParsingDouble(request.Input.LateralText, response.Errors, "Lateral", Resources.LateralNotParsableErrorCode).GetValueOrDefault(-1);
 
-                var lateral = TryParsingDouble(request.Input.LateralText, errors, "Lateral").GetValueOrDefault(-1);
+                response.Result.BaseHorizon = TryParsingDouble(request.Input.BaseHorizonText, response.Errors, "Base Horizon",).GetValueOrDefault(-1);
 
-                response.Result.BaseHorizon = TryParsingDouble(request.Input.BaseHorizonText, errors, "Base Horizon").GetValueOrDefault(-1);
+                response.Result.FluidContact = TryParsingDouble(request.Input.FluidContactText, response.Errors, "Fluid Contact").GetValueOrDefault(-1);
 
-                response.Result.FluidContact = TryParsingDouble(request.Input.FluidContactText, errors, "Fluid Contact").GetValueOrDefault(-1);
+                response.Result.Precision = TryParsingInt(request.Input.PrecisionText, response.Errors, "Precision").GetValueOrDefault(-1);
 
-                response.Result.Precision = TryParsingInt(request.Input.PrecisionText, errors, "Precision").GetValueOrDefault(-1);
+                response.Result.Cells = TryParsingDepthValues(request, response.Errors, lateral);
 
-                TryParsingDepthValues(request, errors, lateral, response.Result.Cells);
-
-                if (errors.Length == 0)
+                if (errors.Length > 0)
                 {
-                    response.Errors = errors.ToString().Split("\n".ToCharArray());
                     response.Result = null;
                 }
 
@@ -61,11 +60,11 @@ namespace OilAndGasProcessor.Parser
             }
         }
 
-        private void TryParsingDepthValues(ParserRequest request, StringBuilder errors, double lateral, IEnumerable<Cell> output)
+        private IEnumerable<Cell> TryParsingDepthValues(ParserRequest request, StringBuilder errors, double lateral)
         {
             int nbr;
 
-            var textLines = request.Input.TopHorizonDepthValuesText.Split("\n".ToCharArray());
+            var textLines = request.Input.TopHorizonDepthValuesText.Split("\r\n".ToCharArray()).Where(x => !String.IsNullOrWhiteSpace(x)).ToArray();
 
             if (textLines.Length < 2)
                 errors.AppendLine(Resources.MinimumNumberOfLines2);
@@ -77,24 +76,31 @@ namespace OilAndGasProcessor.Parser
 
             var firstLineWithNonParsableInt =
                 textLines.FirstOrDefault(
-                    l => l.Split(" ".ToCharArray()).ToList().Any(x => (!int.TryParse(x, out nbr)) || (nbr < 0)));
+                    l => l.Split(" ".ToCharArray()).Where(x => !String.IsNullOrWhiteSpace(x)).Any(x => (!int.TryParse(x, out nbr)) || (nbr < 0)));
 
             if (firstLineWithNonParsableInt != null)
             {
                 errors.AppendLine(Resources.SomeLinesHaveNonParsableToIntStringOrNegativeNumbers);
-                return;
+                return null;
             }
 
-            if (errors.Length <= 0)
-                return;
+            if (errors.Length > 0)
+                return null;
 
             var distinctNumberOfColumns =
-                textLines.ToList().Select(x => x.Split(" ".ToCharArray()).Length).Distinct().ToList();
+                textLines.ToList().Select(x => x.Split(" ".ToCharArray()).Count(y => !String.IsNullOrWhiteSpace(y))).Distinct().ToList();
+
+            if (distinctNumberOfColumns.Count() > 1)
+            {
+                errors.AppendLine(Resources.DepthValuesNotOfTheSameNumberErrorText);
+                return null;
+            }
+
             var numberOfColumns = distinctNumberOfColumns.First();
 
             var matrix = new int[numberOfColumns, textLines.Length];
 
-            output = new List<Cell>();
+            var output = new List<Cell>();
 
             for (var i = 0; i < textLines.Length; i++)
             {
@@ -113,7 +119,7 @@ namespace OilAndGasProcessor.Parser
                 var line = i / (textLines.Length - 1);
                 var column = i % (textLines.Length - 1);
 
-                (output as List<Cell>).Add(
+                output.Add(
                     new Cell
                         {
                             A = matrix[line, column],
@@ -124,15 +130,21 @@ namespace OilAndGasProcessor.Parser
                         }
                 );
             }
+
+            return output;
         }
 
-        private double? TryParsingDouble(string input, StringBuilder errors, string valueName)
+        private double? TryParsingDouble(string input, List<BaseError> errors, string valueName, string errorCode)
         {
             double output;
 
             if (!double.TryParse(input, out output))
             {
-                errors.AppendLine(String.Format("{0} {1}", valueName, Resources.NotParsableDouble));
+                errors.Add(new BaseError
+                {
+                    ErrorCode = int.Parse(errorCode),
+                    ErrorMessage = String.Format("{0} {1}", valueName, Resources.NotParsableDouble)
+                });
                 return null;
             }
 
@@ -143,13 +155,17 @@ namespace OilAndGasProcessor.Parser
             return null;
         }
 
-        private int? TryParsingInt(string input, StringBuilder errors, string valueName)
+        private int? TryParsingInt(string input, List<BaseError> errors, string valueName, string errorCode)
         {
             int output;
 
             if (!int.TryParse(input, out output))
             {
-                errors.AppendLine(String.Format("{0} {1}", valueName, Resources.NotParsableInt));
+                errors.Add(new BaseError
+                {
+                    ErrorCode = int.Parse(errorCode),
+                    ErrorMessage = String.Format("{0} {1}", valueName, Resources.NotParsableInt)
+                });
                 return null;
             }
 
