@@ -45,7 +45,7 @@ namespace OilAndGasProcessorTests
             Assert.IsNull(response.Result);
             Assert.IsNotNull(response.Errors);
             Assert.AreEqual(response.Errors.ToList().Count, 1);
-            Assert.IsTrue(response.Errors.Any(x => x.Contains("Lateral is not a parsable double")));
+            Assert.IsTrue(response.Errors.Any(x => x.ErrorCode == "201"));
         }
 
         [TestMethod]
@@ -61,7 +61,7 @@ namespace OilAndGasProcessorTests
             Assert.IsNull(response.Result);
             Assert.IsNotNull(response.Errors);
             Assert.AreEqual(response.Errors.ToList().Count, 1);
-            Assert.IsTrue(response.Errors.Any(x => x.Contains("Lateral not Under 0")));
+            Assert.IsTrue(response.Errors.Any(x => x.ErrorCode == "202"));
         }
 
         [TestMethod]
@@ -77,7 +77,7 @@ namespace OilAndGasProcessorTests
             Assert.IsNull(response.Result);
             Assert.IsNotNull(response.Errors);
             Assert.AreEqual(response.Errors.ToList().Count, 1);
-            Assert.IsTrue(response.Errors.Any(x => x.Contains("Base Horizon is not a parsable double")));
+            Assert.IsTrue(response.Errors.Any(x => x.ErrorCode == "203"));
         }
 
         [TestMethod]
@@ -93,7 +93,7 @@ namespace OilAndGasProcessorTests
             Assert.IsNull(response.Result);
             Assert.IsNotNull(response.Errors);
             Assert.AreEqual(response.Errors.ToList().Count, 1);
-            Assert.IsTrue(response.Errors.Any(x => x.Contains("Base Horizon not Under 0")));
+            Assert.IsTrue(response.Errors.Any(x => x.ErrorCode == "204"));
         }
 
         [TestMethod]
@@ -109,7 +109,7 @@ namespace OilAndGasProcessorTests
             Assert.IsNull(response.Result);
             Assert.IsNotNull(response.Errors);
             Assert.AreEqual(response.Errors.ToList().Count, 1);
-            Assert.IsTrue(response.Errors.Any(x => x.Contains("Fluid Contact is not a parsable double")));
+            Assert.IsTrue(response.Errors.Any(x => x.ErrorCode == "205"));
         }
 
         [TestMethod]
@@ -125,7 +125,7 @@ namespace OilAndGasProcessorTests
             Assert.IsNull(response.Result);
             Assert.IsNotNull(response.Errors);
             Assert.AreEqual(response.Errors.ToList().Count, 1);
-            Assert.IsTrue(response.Errors.Any(x => x.Contains("Fluid Contact not Under 0")));
+            Assert.IsTrue(response.Errors.Any(x => x.ErrorCode == "206"));
         }
 
         [TestMethod]
@@ -141,7 +141,7 @@ namespace OilAndGasProcessorTests
             Assert.IsNull(response.Result);
             Assert.IsNotNull(response.Errors);
             Assert.AreEqual(response.Errors.ToList().Count, 1);
-            Assert.IsTrue(response.Errors.Any(x => x.Contains("Precision is not a parsable int")));
+            Assert.IsTrue(response.Errors.Any(x => x.ErrorCode == "208"));
         }
 
         [TestMethod]
@@ -157,7 +157,7 @@ namespace OilAndGasProcessorTests
             Assert.IsNull(response.Result);
             Assert.IsNotNull(response.Errors);
             Assert.AreEqual(response.Errors.ToList().Count, 1);
-            Assert.IsTrue(response.Errors.Any(x => x.Contains("Precision not Under 0")));
+            Assert.IsTrue(response.Errors.Any(x => x.ErrorCode == "207"));
         }
 
         [TestMethod]
@@ -180,7 +180,7 @@ namespace OilAndGasProcessorTests
             Assert.IsNull(response.Result);
             Assert.IsNotNull(response.Errors);
             Assert.AreEqual(response.Errors.ToList().Count, 1);
-            Assert.IsTrue(response.Errors.Any(x => x.Contains("Some of the lines have non parsable to int strings or negative numbers")));
+            Assert.IsTrue(response.Errors.Any(x => x.ErrorCode == "210"));
         }
 
         [TestMethod]
@@ -203,7 +203,7 @@ namespace OilAndGasProcessorTests
             Assert.IsNull(response.Result);
             Assert.IsNotNull(response.Errors);
             Assert.AreEqual(response.Errors.ToList().Count, 1);
-            Assert.IsTrue(response.Errors.Any(x => x.Contains("Depth values not of the same number in each line")));
+            Assert.IsTrue(response.Errors.Any(x => x.ErrorCode == "211"));
         }
 
         [TestMethod]
@@ -222,7 +222,7 @@ namespace OilAndGasProcessorTests
             Assert.IsNull(response.Result);
             Assert.IsNotNull(response.Errors);
             Assert.AreEqual(response.Errors.ToList().Count, 1);
-            Assert.IsTrue(response.Errors.Any(x => x.Contains("Minimum number of lines 2")));
+            Assert.IsTrue(response.Errors.Any(x => x.ErrorCode == "209"));
         }
     }
 }

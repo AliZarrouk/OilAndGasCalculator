@@ -35,17 +35,17 @@ namespace OilAndGasProcessor.Parser
                     Errors = new List<BaseError>()
                 };
 
-                var lateral = TryParsingDouble(request.Input.LateralText, response.Errors, "Lateral", Resources.LateralNotParsableErrorCode).GetValueOrDefault(-1);
+                var lateral = TryParsingDouble(request.Input.LateralText, response.Errors as List<BaseError>, "Lateral", Resources.LateralNotParsableErrorCode, Resources.LateralUnderZeroErrorCode).GetValueOrDefault(-1);
 
-                response.Result.BaseHorizon = TryParsingDouble(request.Input.BaseHorizonText, response.Errors, "Base Horizon",).GetValueOrDefault(-1);
+                response.Result.BaseHorizon = TryParsingDouble(request.Input.BaseHorizonText, response.Errors as List<BaseError>, "Base Horizon", Resources.BHNotParsableErrorCode, Resources.BHUnderZeroErrorCode).GetValueOrDefault(-1);
 
-                response.Result.FluidContact = TryParsingDouble(request.Input.FluidContactText, response.Errors, "Fluid Contact").GetValueOrDefault(-1);
+                response.Result.FluidContact = TryParsingDouble(request.Input.FluidContactText, response.Errors as List<BaseError>, "Fluid Contact", Resources.FCNotParsableErrorCode, Resources.FCUnderZeroErrorCode).GetValueOrDefault(-1);
 
-                response.Result.Precision = TryParsingInt(request.Input.PrecisionText, response.Errors, "Precision").GetValueOrDefault(-1);
+                response.Result.Precision = TryParsingInt(request.Input.PrecisionText, response.Errors as List<BaseError>, "Precision", Resources.PrecisionNotParsableErrorCode, Resources.PrecisionUnderZeroErrorCode).GetValueOrDefault(-1);
 
-                response.Result.Cells = TryParsingDepthValues(request, response.Errors, lateral);
+                response.Result.Cells = TryParsingDepthValues(request, response.Errors as List<BaseError>, lateral);
 
-                if (errors.Length > 0)
+                if (response.Errors.Any())
                 {
                     response.Result = null;
                 }
@@ -60,19 +60,26 @@ namespace OilAndGasProcessor.Parser
             }
         }
 
-        private IEnumerable<Cell> TryParsingDepthValues(ParserRequest request, StringBuilder errors, double lateral)
+        private IEnumerable<Cell> TryParsingDepthValues(ParserRequest request, List<BaseError> errors, double lateral)
         {
             int nbr;
 
-            var textLines = request.Input.TopHorizonDepthValuesText.Split("\r\n".ToCharArray()).Where(x => !String.IsNullOrWhiteSpace(x)).ToArray();
+            var textLines = request.Input.TopHorizonDepthValuesText.Split("\r\n".ToCharArray()).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
 
             if (textLines.Length < 2)
-                errors.AppendLine(Resources.MinimumNumberOfLines2);
+                errors.Add(new BaseError {
+                    ErrorCode = Resources.MinNumberOfLinesErrorCode,
+                    ErrorMessage = Resources.MinimumNumberOfLines2
+                });
 
             var nbrOfElements = textLines.Select(x => x.Split(" ".ToCharArray()).Count()).Distinct();
 
             if (nbrOfElements.Count() > 1)
-                errors.AppendLine(Resources.DepthValuesNotOfTheSameNumberErrorText);
+                errors.Add(new BaseError
+                {
+                    ErrorCode = Resources.DepthValuesNotOfTheSameNumberErrorCode,
+                    ErrorMessage = Resources.DepthValuesNotOfTheSameNumberErrorText
+                });
 
             var firstLineWithNonParsableInt =
                 textLines.FirstOrDefault(
@@ -80,11 +87,15 @@ namespace OilAndGasProcessor.Parser
 
             if (firstLineWithNonParsableInt != null)
             {
-                errors.AppendLine(Resources.SomeLinesHaveNonParsableToIntStringOrNegativeNumbers);
+                errors.Add(new BaseError
+                {
+                    ErrorCode = Resources.SomeLinesHaveNonParsableToIntStringOrNegativeNumbersErrorCode,
+                    ErrorMessage = Resources.SomeLinesHaveNonParsableToIntStringOrNegativeNumbers
+                });
                 return null;
             }
 
-            if (errors.Length > 0)
+            if (errors.Any())
                 return null;
 
             var distinctNumberOfColumns =
@@ -92,7 +103,11 @@ namespace OilAndGasProcessor.Parser
 
             if (distinctNumberOfColumns.Count() > 1)
             {
-                errors.AppendLine(Resources.DepthValuesNotOfTheSameNumberErrorText);
+                errors.Add(new BaseError
+                {
+                    ErrorCode = Resources.DepthValuesNotOfTheSameNumberErrorCode,
+                    ErrorMessage = Resources.DepthValuesNotOfTheSameNumberErrorText
+                });
                 return null;
             }
 
@@ -121,20 +136,20 @@ namespace OilAndGasProcessor.Parser
 
                 output.Add(
                     new Cell
-                        {
-                            A = matrix[line, column],
-                            B = matrix[line, column + 1],
-                            C = matrix[line + 1, column + 1],
-                            D = matrix[line + 1, column],
-                            Lateral = lateral
-                        }
+                    {
+                        A = matrix[line, column],
+                        B = matrix[line, column + 1],
+                        C = matrix[line + 1, column + 1],
+                        D = matrix[line + 1, column],
+                        Lateral = lateral
+                    }
                 );
             }
 
             return output;
         }
 
-        private double? TryParsingDouble(string input, List<BaseError> errors, string valueName, string errorCode)
+        private double? TryParsingDouble(string input, List<BaseError> errors, string valueName, string errorCodeUnparsable, string errorCodeUnderZero)
         {
             double output;
 
@@ -142,8 +157,8 @@ namespace OilAndGasProcessor.Parser
             {
                 errors.Add(new BaseError
                 {
-                    ErrorCode = int.Parse(errorCode),
-                    ErrorMessage = String.Format("{0} {1}", valueName, Resources.NotParsableDouble)
+                    ErrorCode = errorCodeUnparsable,
+                    ErrorMessage = string.Format("{0} {1}", valueName, Resources.NotParsableDouble)
                 });
                 return null;
             }
@@ -151,11 +166,16 @@ namespace OilAndGasProcessor.Parser
             if (output >= 0)
                 return output;
 
-            errors.AppendLine(String.Format("{0} {1}", valueName, Resources.NotUnderZero));
+            errors.Add(new BaseError
+            {
+                ErrorCode = errorCodeUnderZero,
+                ErrorMessage = string.Format("{0} {1}", valueName, Resources.NotUnderZero)
+            });
+
             return null;
         }
 
-        private int? TryParsingInt(string input, List<BaseError> errors, string valueName, string errorCode)
+        private int? TryParsingInt(string input, List<BaseError> errors, string valueName, string notParsableErrorCode, string notUnderZeroErrorCode)
         {
             int output;
 
@@ -163,8 +183,8 @@ namespace OilAndGasProcessor.Parser
             {
                 errors.Add(new BaseError
                 {
-                    ErrorCode = int.Parse(errorCode),
-                    ErrorMessage = String.Format("{0} {1}", valueName, Resources.NotParsableInt)
+                    ErrorCode = notParsableErrorCode,
+                    ErrorMessage = string.Format("{0} {1}", valueName, Resources.NotParsableInt)
                 });
                 return null;
             }
@@ -172,7 +192,14 @@ namespace OilAndGasProcessor.Parser
             if (output >= 0)
                 return output;
 
-            errors.AppendLine(String.Format("{0} {1}", valueName, Resources.NotUnderZero));
+            errors.Add(
+                new BaseError
+                {
+                    ErrorCode = notUnderZeroErrorCode,
+                    ErrorMessage = string.Format("{0} {1}", valueName, Resources.NotUnderZero)
+                }
+                );
+                
             return null;
         }
     }
