@@ -55,7 +55,7 @@ namespace OilAndGasProcessor.Calculator
                 return new CalculatorResponse
                 {
                     Result = null,
-                    Errors = new List<BaseError>() { new BaseError { ErrorException = exception } }
+                    Errors = new List<BaseError> { new BaseError { ErrorException = exception } }
                 };
             }
         }

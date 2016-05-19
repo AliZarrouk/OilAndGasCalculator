@@ -1,6 +1,7 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using OilAndGasProcessor.Calculator;
 using OilAndGasProcessor.Parser;
 
 namespace OilAndGasProcessor
@@ -13,7 +14,9 @@ namespace OilAndGasProcessor
                 Component.For<IDataParser>().ImplementedBy<DataParser>()
                 );
 
-            
+            container.Register(
+                Component.For<IVolumeCalculator>().ImplementedBy<VolumeCalculator>()
+                );
         }
     }
 }

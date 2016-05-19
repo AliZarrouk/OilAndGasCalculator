@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OilAndGasProcessor.Parser;
@@ -30,6 +31,17 @@ namespace OilAndGasProcessorTests
                     TopHorizonDepthValuesText = depthValues.ToString()
                 }
             };
+        }
+
+        [TestMethod]
+        public void OneOfTheRequestValuesIsNull()
+        {
+            var response = new DataParser().ParseFormData(null);
+
+            Assert.IsNotNull(response);
+            Assert.IsNull(response.Result);
+            Assert.IsNotNull(response.Errors);
+            Assert.AreEqual(response.Errors.First().ErrorException.Message, "request cannot be null");
         }
 
         [TestMethod]
@@ -223,6 +235,32 @@ namespace OilAndGasProcessorTests
             Assert.IsNotNull(response.Errors);
             Assert.AreEqual(response.Errors.ToList().Count, 1);
             Assert.IsTrue(response.Errors.Any(x => x.ErrorCode == "209"));
+        }
+
+        [TestMethod]
+        public void ParsingCorrectValuesWorks()
+        {
+            var request = CreateBasicParserRequest();
+
+            var response = new DataParser().ParseFormData(request);
+
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Result);
+            Assert.IsNull(response.Errors);
+            Assert.AreEqual(response.Result.BaseHorizon, 100);
+            Assert.AreEqual(response.Result.FluidContact, 100);
+            Assert.AreEqual(response.Result.Precision, 2);
+            Assert.IsNotNull(response.Result.Cells);
+            Assert.AreEqual(response.Result.Cells.Count(), 20);
+            Assert.AreEqual(response.Result.Cells.First().Lateral, 10);
+
+            const double tolerance = 0.1;
+
+            Assert.IsTrue(response.Result.Cells.Count(x => (Math.Abs(x.A - 1) < tolerance) && (Math.Abs(x.B - 1) < tolerance) && (Math.Abs(x.C - 4) < tolerance) && (Math.Abs(x.D - 4) < tolerance)) == 4);
+            Assert.IsTrue(response.Result.Cells.Count(x => (Math.Abs(x.C - 5) < tolerance) && (Math.Abs(x.C - 5) < tolerance) && (Math.Abs(x.A - 4) < tolerance) && (Math.Abs(x.B - 4) < tolerance)) == 4);
+            Assert.IsTrue(response.Result.Cells.Count(x => (Math.Abs(x.A - 5) < tolerance) && (Math.Abs(x.B - 5) < tolerance) && (Math.Abs(x.C - 6) < tolerance) && (Math.Abs(x.D - 6) < tolerance)) == 4);
+            Assert.IsTrue(response.Result.Cells.Count(x => (Math.Abs(x.A - 6) < tolerance) && (Math.Abs(x.B - 6) < tolerance) && (Math.Abs(x.C - 7) < tolerance) && (Math.Abs(x.D - 7) < tolerance)) == 4);
+            Assert.IsTrue(response.Result.Cells.Count(x => (Math.Abs(x.A - 7) < tolerance) && (Math.Abs(x.B - 7) < tolerance) && (Math.Abs(x.C - 7) < tolerance) && (Math.Abs(x.D - 7) < tolerance)) == 4);
         }
     }
 }

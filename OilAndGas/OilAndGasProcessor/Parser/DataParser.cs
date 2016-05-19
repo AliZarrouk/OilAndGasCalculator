@@ -28,6 +28,11 @@ namespace OilAndGasProcessor.Parser
 
                 Guard.Against<NullReferenceException>(request == null, "request cannot be null");
                 Guard.Against<NullReferenceException>(request.Input == null, "request's input cannot be null");
+                Guard.Against<NullReferenceException>(String.IsNullOrWhiteSpace(request.Input.BaseHorizonText), "request's input's BaseHorizonText cannot be null");
+                Guard.Against<NullReferenceException>(String.IsNullOrWhiteSpace(request.Input.LateralText), "request's input's LateralText cannot be null");
+                Guard.Against<NullReferenceException>(String.IsNullOrWhiteSpace(request.Input.PrecisionText), "request's input's PrecisionText cannot be null");
+                Guard.Against<NullReferenceException>(String.IsNullOrWhiteSpace(request.Input.TopHorizonDepthValuesText), "request's input's TopHorizonDepthValuesText cannot be null");
+                Guard.Against<NullReferenceException>(String.IsNullOrWhiteSpace(request.Input.FluidContactText), "request's input's FluidContactText cannot be null");
 
                 var response = new ParserResponse
                 {
@@ -49,6 +54,10 @@ namespace OilAndGasProcessor.Parser
                 {
                     response.Result = null;
                 }
+                else
+                {
+                    response.Errors = null;
+                }
 
                 Log.Info("Exiting ParseFormData");
                 return response;
@@ -56,7 +65,16 @@ namespace OilAndGasProcessor.Parser
             catch (Exception exception)
             {
                 Log.Error("Exception while parsing form output", exception);
-                return null;
+                return new ParserResponse
+                {
+                    Result = null,
+                    Errors = new List<BaseError> { 
+                        new BaseError
+                        {
+                            ErrorException = exception
+                        }
+                    }
+                };
             }
         }
 
@@ -67,23 +85,15 @@ namespace OilAndGasProcessor.Parser
             var textLines = request.Input.TopHorizonDepthValuesText.Split("\r\n".ToCharArray()).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
 
             if (textLines.Length < 2)
-                errors.Add(new BaseError {
+                errors.Add(new BaseError
+                {
                     ErrorCode = Resources.MinNumberOfLinesErrorCode,
                     ErrorMessage = Resources.MinimumNumberOfLines2
                 });
 
-            var nbrOfElements = textLines.Select(x => x.Split(" ".ToCharArray()).Count()).Distinct();
-
-            if (nbrOfElements.Count() > 1)
-                errors.Add(new BaseError
-                {
-                    ErrorCode = Resources.DepthValuesNotOfTheSameNumberErrorCode,
-                    ErrorMessage = Resources.DepthValuesNotOfTheSameNumberErrorText
-                });
-
             var firstLineWithNonParsableInt =
-                textLines.FirstOrDefault(
-                    l => l.Split(" ".ToCharArray()).Where(x => !String.IsNullOrWhiteSpace(x)).Any(x => (!int.TryParse(x, out nbr)) || (nbr < 0)));
+                 textLines.FirstOrDefault(
+                     l => l.Split(" ".ToCharArray()).Where(x => !String.IsNullOrWhiteSpace(x)).Any(x => (!int.TryParse(x, out nbr)) || (nbr < 0)));
 
             if (firstLineWithNonParsableInt != null)
             {
@@ -199,7 +209,7 @@ namespace OilAndGasProcessor.Parser
                     ErrorMessage = string.Format("{0} {1}", valueName, Resources.NotUnderZero)
                 }
                 );
-                
+
             return null;
         }
     }
