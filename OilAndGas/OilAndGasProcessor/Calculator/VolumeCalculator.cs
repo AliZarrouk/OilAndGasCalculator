@@ -14,6 +14,8 @@ namespace OilAndGasProcessor.Calculator
     public interface IVolumeCalculator
     {
         CalculatorResponse CalculateVolume(CalculatorRequest request);
+
+        event EventHandler<ProgressEventArgs> ProgressDone;
     }
 
     public class VolumeCalculator : IVolumeCalculator

@@ -63,6 +63,7 @@
     <Compile Include="Parser\ParserOutput.cs" />
     <Compile Include="Parser\ParserRequest.cs" />
     <Compile Include="Parser\ParserResponse.cs" />
+    <Compile Include="Processor\DataProcessor.cs" />
     <Compile Include="Processor\FormOutput.cs" />
     <Compile Include="Processor\ProcessorRequest.cs" />
     <Compile Include="Processor\ProcessorResponse.cs" />

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace OilAndGasForm
 {
-    public partial class Form1 : Form
+    public partial class OilAndGasCalculatorForm : Form
     {
-        public Form1()
+        public OilAndGasCalculatorForm()
         {
             InitializeComponent();
         }

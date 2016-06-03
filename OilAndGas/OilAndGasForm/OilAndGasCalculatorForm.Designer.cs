@@ -1,6 +1,6 @@
 ﻿namespace OilAndGasForm
 {
-    partial class Form1
+    partial class OilAndGasCalculatorForm
     {
         /// <summary>
         /// Required designer variable.
