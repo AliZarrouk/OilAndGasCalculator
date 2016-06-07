@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ namespace OilAndGasForm
 {
     public partial class OilAndGasCalculatorForm : Form
     {
+        private ProcessorResponse _result;
+
         public OilAndGasCalculatorForm()
         {
             InitializeComponent();
@@ -19,7 +22,11 @@ namespace OilAndGasForm
 
         private void SetDefaultValuesButton_Click(object sender, EventArgs e)
         {
-
+            DepthValuesTextBox.Text = System.IO.File.ReadAllText(Resources.DefaultDepthValuesFilePath);
+            FluidConactTextBox.Text = Resources.FluidContactDefaultValue;
+            LateralTextBox.Text = Resources.LateralDefaultValue;
+            BaseHorizonTextBox.Text = Resources.BaseHorizonDefaultValue;
+            PrecisionTextBox.Text = 2.ToString(CultureInfo.InvariantCulture);
         }
 
         private async void ProcessButton_Click(object sender, EventArgs e)
@@ -45,6 +52,7 @@ namespace OilAndGasForm
                     }
                 };
 
+                ResultTextBox.Text = Resources.CalculatingText;
                 Ticks = 0;
                 ElapsedTimeLabel.Text = Ticks.ToString(CultureInfo.InvariantCulture);
                 Timer1.Start();
@@ -53,28 +61,28 @@ namespace OilAndGasForm
                     {
                         dataProcessor.ProgressDone += OnProgressDone;
 
-                        var response = dataProcessor.ProcessData(processorRequest);
-
-                        if (response.Result == null)
-                        {
-                            MessageBox.Show(String.Join(",", response.Errors.Select(x => x.ErrorException.Message)), "Error",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
-                        }
-                        else
-                        {
-                            ResultTextBox.Text = response.Result[Unit.CubicMeter];
-                        }
+                        _result = dataProcessor.ProcessData(processorRequest);
                     });
 
                 await t;
 
                 Timer1.Stop();
 
+                if (_result.Result == null)
+                {
+                    MessageBox.Show(String.Join(",", _result.Errors.Select(x => x.ErrorException.Message)),
+                        Resources.ProcessorResponseErrorHeader,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+                else
+                {
+                    ShowResult();
+                }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(exception.Message, Resources.ProcessorResponseErrorHeader, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -98,17 +106,46 @@ namespace OilAndGasForm
 
         }
 
-        private void InformationButton_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("bla", "bla",
-                                 MessageBoxButtons.OK,
-                                 MessageBoxIcon.Information);
-        }
-
         private void Timer_Tick(object sender, EventArgs e)
         {
             Ticks++;
             ElapsedTimeLabel.Text = Ticks.ToString(CultureInfo.InvariantCulture);
+        }
+
+        private void ShowResult()
+        {
+            if (_result.Result == null) return;
+
+            var checkedRadio = String.Concat(CubicFeetRadioButton.Checked ? "1" : "0",
+                BarrelRadioButton.Checked ? "1" : "0", CubicMeterRadioButton.Checked ? "1" : "0");
+
+            switch (checkedRadio)
+            {
+                case "100":
+                    ResultTextBox.Text = _result.Result[Unit.CubicFeet];
+                    break;
+                case "001":
+                    ResultTextBox.Text = _result.Result[Unit.CubicMeter];
+                    break;
+                case "010":
+                    ResultTextBox.Text = _result.Result[Unit.Barrel];
+                    break;
+            }
+        }
+
+        private void CubicFeetRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            ShowResult();
+        }
+
+        private void BarrelRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            ShowResult();
+        }
+
+        private void CubicMeterRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            ShowResult();
         }
     }
 }

@@ -42,7 +42,6 @@ namespace OilAndGasForm
             this.BaseHorizonTextBox = new System.Windows.Forms.TextBox();
             this.SetDefaultValuesButton = new System.Windows.Forms.Button();
             this.ProcessButton = new System.Windows.Forms.Button();
-            this.InformationButton = new System.Windows.Forms.Button();
             this.CubicMeterRadioButton = new System.Windows.Forms.RadioButton();
             this.CubicFeetRadioButton = new System.Windows.Forms.RadioButton();
             this.BarrelRadioButton = new System.Windows.Forms.RadioButton();
@@ -148,16 +147,6 @@ namespace OilAndGasForm
             this.ProcessButton.UseVisualStyleBackColor = true;
             this.ProcessButton.Click += new System.EventHandler(this.ProcessButton_Click);
             // 
-            // InformationButton
-            // 
-            this.InformationButton.Location = new System.Drawing.Point(808, 12);
-            this.InformationButton.Name = "InformationButton";
-            this.InformationButton.Size = new System.Drawing.Size(102, 25);
-            this.InformationButton.TabIndex = 12;
-            this.InformationButton.Text = "Information";
-            this.InformationButton.UseVisualStyleBackColor = true;
-            this.InformationButton.Click += new System.EventHandler(this.InformationButton_Click);
-            // 
             // CubicMeterRadioButton
             // 
             this.CubicMeterRadioButton.AutoSize = true;
@@ -168,7 +157,7 @@ namespace OilAndGasForm
             this.CubicMeterRadioButton.TabStop = true;
             this.CubicMeterRadioButton.Text = "Cubic Meter";
             this.CubicMeterRadioButton.UseVisualStyleBackColor = true;
-            //this.CubicMeterRadioButton.CheckedChanged += new System.EventHandler(this.CubicMeterRadioButton_CheckedChanged);
+            this.CubicMeterRadioButton.CheckedChanged += new System.EventHandler(this.CubicMeterRadioButton_CheckedChanged);
             // 
             // CubicFeetRadioButton
             // 
@@ -181,7 +170,7 @@ namespace OilAndGasForm
             this.CubicFeetRadioButton.TabStop = true;
             this.CubicFeetRadioButton.Text = "Cubic Feet";
             this.CubicFeetRadioButton.UseVisualStyleBackColor = true;
-            //this.CubicFeetRadioButton.CheckedChanged += new System.EventHandler(this.CubicFeetRadioButton_CheckedChanged);
+            this.CubicFeetRadioButton.CheckedChanged += new System.EventHandler(this.CubicFeetRadioButton_CheckedChanged);
             // 
             // BarrelRadioButton
             // 
@@ -193,7 +182,7 @@ namespace OilAndGasForm
             this.BarrelRadioButton.TabStop = true;
             this.BarrelRadioButton.Text = "Barrel";
             this.BarrelRadioButton.UseVisualStyleBackColor = true;
-            //this.BarrelRadioButton.CheckedChanged += new System.EventHandler(this.BarrelRadioButton_CheckedChanged);
+            this.BarrelRadioButton.CheckedChanged += new System.EventHandler(this.BarrelRadioButton_CheckedChanged);
             // 
             // PrecisionTextBox
             // 
@@ -252,7 +241,6 @@ namespace OilAndGasForm
             this.Controls.Add(this.BarrelRadioButton);
             this.Controls.Add(this.CubicFeetRadioButton);
             this.Controls.Add(this.CubicMeterRadioButton);
-            this.Controls.Add(this.InformationButton);
             this.Controls.Add(this.ProcessButton);
             this.Controls.Add(this.SetDefaultValuesButton);
             this.Controls.Add(this.BaseHorizonTextBox);
@@ -284,7 +272,6 @@ namespace OilAndGasForm
         private System.Windows.Forms.TextBox BaseHorizonTextBox;
         private System.Windows.Forms.Button SetDefaultValuesButton;
         private System.Windows.Forms.Button ProcessButton;
-        private System.Windows.Forms.Button InformationButton;
         private System.Windows.Forms.RadioButton CubicMeterRadioButton;
         private System.Windows.Forms.RadioButton CubicFeetRadioButton;
         private System.Windows.Forms.RadioButton BarrelRadioButton;
