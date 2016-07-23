@@ -22,6 +22,15 @@ namespace OilAndGasProcessor.Processor
         private static readonly ILog Log = LogManager.GetLogger(typeof(DataProcessor));
         public event EventHandler<ProgressEventArgs> ProgressDone;
 
+        private IDataParser parser;
+        private IVolumeCalculator calculator;
+
+        public DataProcessor(IDataParser parser, IVolumeCalculator calculator)
+        {
+            this.parser = parser;
+            this.calculator = calculator;
+        }
+
         public ProcessorResponse ProcessData(ProcessorRequest request)
         {
             try
@@ -29,14 +38,7 @@ namespace OilAndGasProcessor.Processor
                 Guard.Against<NullReferenceException>(request == null, "request cannot be null");
                 Guard.Against<NullReferenceException>(request.Input == null, "request's input cannot be null");
 
-                var dataParser = IoC.Container.Resolve<IDataParser>();
-
-                if (dataParser == null)
-                {
-                    throw new Exception("Retrieveing instance of IDataProcessor failed");
-                }
-
-                var dataParserResponse = dataParser.ParseFormData(request.GetParserRequest());
+                var dataParserResponse = parser.ParseFormData(request.GetParserRequest());
 
                 if (dataParserResponse == null)
                 {
@@ -52,16 +54,9 @@ namespace OilAndGasProcessor.Processor
                     };
                 }
 
-                var volumecalculator = IoC.Container.Resolve<IVolumeCalculator>();
+                calculator.ProgressDone += OnProgressDone;
 
-                if (volumecalculator == null)
-                {
-                    throw new Exception("Retrieveing instance of IVolumeCalculator failed");
-                }
-
-                volumecalculator.ProgressDone += OnProgressDone;
-
-                var calculatorResponse = volumecalculator.CalculateVolume(GetCalculatorRequest(dataParserResponse, Unit.CubicMeter));
+                var calculatorResponse = calculator.CalculateVolume(GetCalculatorRequest(dataParserResponse, Unit.CubicMeter));
 
                 if (calculatorResponse == null)
                 {
